@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>You're Invited</title>
+
+<meta name="description" content="An evening in Cary. Please RSVP by September 1st.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FBF6E9">
+<meta property="og:type" content="website">
+<meta property="og:title" id="ogTitle" content="You're Invited — Saturday, September 19">
+<meta property="og:description" id="ogDesc" content="An evening in Cary. Please RSVP by September 1st.">
+<meta name="twitter:card" content="summary">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%89%3C/text%3E%3C/svg%3E">
+
+<link rel="stylesheet" href="assets/css/fonts.css">
+
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+
+<!-- ===== shared SVG defs: balloons, stars, confetti ===================== -->
+<svg class="svg-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#F6E27A"/>
+      <stop offset="38%" stop-color="#D4AF37"/>
+      <stop offset="72%" stop-color="#B8860B"/>
+      <stop offset="100%" stop-color="#E8CE7B"/>
+    </linearGradient>
+    <linearGradient id="gPearl" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#FFFFFF"/>
+      <stop offset="45%" stop-color="#F4EEDC"/>
+      <stop offset="100%" stop-color="#DCCFA8"/>
+    </linearGradient>
+    <linearGradient id="gString" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C9A227"/>
+      <stop offset="100%" stop-color="#C9A227" stop-opacity="0"/>
+    </linearGradient>
+
+    <symbol id="balloon" viewBox="0 0 130 210">
+      <ellipse cx="62" cy="66" rx="55" ry="65" fill="var(--balloon-fill, url(#gGold))"/>
+      <ellipse cx="41" cy="42" rx="13" ry="21" fill="#fff" opacity=".38"
+               transform="rotate(-24 41 42)"/>
+      <ellipse cx="86" cy="92" rx="7" ry="13" fill="#fff" opacity=".16"
+               transform="rotate(-20 86 92)"/>
+      <path d="M54 128 h16 l-8 15 z" fill="var(--balloon-knot, #B8860B)"/>
+      <path d="M62 143 c9 22 -12 30 -3 48 c7 14 -4 19 1 19"
+            fill="none" stroke="url(#gString)" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="star4" viewBox="0 0 100 100">
+      <path d="M50 0 C54 33 67 46 100 50 C67 54 54 67 50 100 C46 67 33 54 0 50 C33 46 46 33 50 0 Z"
+            fill="url(#gGold)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<a class="skip-link" href="#rsvp">Skip to the RSVP form</a>
+
+<!-- ===== setup warning (only while rsvp.mode is "demo") ================= -->
+<div class="setup-banner" id="setupBanner" hidden role="status">
+  <strong>Not live yet.</strong>
+  <span>RSVPs are only being saved to this browser. Open
+  <code>assets/js/config.js</code> and set up a backend before you send this
+  link out — see <code>README.md</code>.</span>
+</div>
+
+
+<!-- ================================================================== -->
+<!-- HERO / THE INVITATION                                              -->
+<!-- ================================================================== -->
+<header class="hero">
+  <div class="confetti" aria-hidden="true"></div>
+
+  <div class="balloons balloons--left" aria-hidden="true">
+    <svg class="b b1"><use href="#balloon"/></svg>
+    <svg class="b b2 pearl"><use href="#balloon"/></svg>
+    <svg class="b b3"><use href="#balloon"/></svg>
+  </div>
+  <div class="balloons balloons--right" aria-hidden="true">
+    <svg class="b b4"><use href="#balloon"/></svg>
+    <svg class="b b5 pearl"><use href="#balloon"/></svg>
+    <svg class="b b6"><use href="#balloon"/></svg>
+  </div>
+
+  <div class="invite">
+
+    <p class="eyebrow" id="heroEyebrow">Join us to celebrate</p>
+
+    <h1 class="honoree">
+      <span class="script" id="heroName">Parsattom's</span>
+      <span class="script" id="heroOccasion">75th Birthday</span>
+    </h1>
+
+    <p class="surprise-tag" id="surpriseTag" hidden>
+      <span class="shh" aria-hidden="true">🤫</span>
+      <span>It's a <strong>surprise</strong> — please keep it between us</span>
+    </p>
+
+    <div class="datebar">
+      <div class="datebar__month" id="heroMonth">September</div>
+      <div class="datebar__row">
+        <div class="datebar__side"><span id="heroWeekday">Saturday</span></div>
+        <div class="datebar__day script" id="heroDay">19</div>
+        <div class="datebar__side"><span id="heroTime">6 PM</span></div>
+      </div>
+    </div>
+
+    <address class="venue">
+      <span id="heroVenue" hidden></span>
+      <span id="heroAddr1">1519 Scenic Club Drive</span>
+      <span id="heroAddr2">Cary, NC 27519</span>
+    </address>
+
+    <p class="dresscode">
+      <span class="dresscode__label">Dress Code</span>
+      <span id="heroDress">Indian Bandini &amp; Kurta Pajama</span>
+    </p>
+
+    <div class="hero-cta">
+      <a class="btn btn--primary" href="#rsvp">RSVP</a>
+      <button class="btn btn--ghost" type="button" id="btnCalendarTop">Add to calendar</button>
+    </div>
+
+    <p class="rsvp-by">Please RSVP by <strong id="heroDeadline">September 1st</strong></p>
+
+    <div class="stars" aria-hidden="true">
+      <svg class="s s1"><use href="#star4"/></svg>
+      <svg class="s s2"><use href="#star4"/></svg>
+      <svg class="s s3"><use href="#star4"/></svg>
+      <svg class="s s4"><use href="#star4"/></svg>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="noscript">
+      <p><strong>Please turn on JavaScript</strong> to RSVP here — or just reply
+      to the message you got this link in and we'll add you to the list.</p>
+    </div>
+  </noscript>
+</header>
+
+
+<!-- ================================================================== -->
+<!-- COUNTDOWN                                                          -->
+<!-- ================================================================== -->
+<section class="countdown-wrap" aria-labelledby="cdTitle">
+  <h2 class="section-title" id="cdTitle">The countdown</h2>
+  <div class="countdown" id="countdown" role="timer" aria-live="off">
+    <div class="cd"><span class="cd__n" id="cdD">—</span><span class="cd__l">days</span></div>
+    <div class="cd"><span class="cd__n" id="cdH">—</span><span class="cd__l">hours</span></div>
+    <div class="cd"><span class="cd__n" id="cdM">—</span><span class="cd__l">minutes</span></div>
+    <div class="cd"><span class="cd__n" id="cdS">—</span><span class="cd__l">seconds</span></div>
+  </div>
+  <p class="countdown__note" id="countdownNote"></p>
+</section>
+
+
+<!-- ================================================================== -->
+<!-- DETAILS                                                            -->
+<!-- ================================================================== -->
+<section class="details" aria-labelledby="detailsTitle">
+  <h2 class="section-title" id="detailsTitle">The details</h2>
+  <div class="rule" aria-hidden="true"></div>
+
+  <div class="cards">
+
+    <article class="card">
+      <h3 class="card__h">When</h3>
+      <p class="card__lead" id="detWhen">—</p>
+      <p class="card__sub" id="detArrival" hidden></p>
+      <button class="linkbtn" type="button" id="btnCalendar">Add to my calendar</button>
+    </article>
+
+    <article class="card">
+      <h3 class="card__h">Where</h3>
+      <p class="card__lead" id="detWhere">—</p>
+      <div class="card__actions">
+        <a class="linkbtn" id="linkGoogleMaps" href="#" target="_blank" rel="noopener">Google&nbsp;Maps</a>
+        <a class="linkbtn" id="linkAppleMaps" href="#" target="_blank" rel="noopener">Apple&nbsp;Maps</a>
+      </div>
+      <p class="card__sub" id="detParking" hidden></p>
+    </article>
+
+    <article class="card">
+      <h3 class="card__h">What to wear</h3>
+      <p class="card__lead" id="detDress">—</p>
+      <p class="card__sub" id="detDressNote" hidden></p>
+    </article>
+
+    <article class="card" id="cardFood" hidden>
+      <h3 class="card__h">Food</h3>
+      <p class="card__sub" id="detFood"></p>
+    </article>
+
+    <article class="card" id="cardGifts" hidden>
+      <h3 class="card__h">Gifts</h3>
+      <p class="card__sub" id="detGifts"></p>
+    </article>
+
+    <article class="card card--accent" id="cardSecret" hidden>
+      <h3 class="card__h">Keeping the secret</h3>
+      <p class="card__sub" id="detSecret"></p>
+    </article>
+
+  </div>
+</section>
+
+
+<!-- ================================================================== -->
+<!-- RSVP                                                               -->
+<!-- ================================================================== -->
+<section class="rsvp" id="rsvp" aria-labelledby="rsvpTitle">
+  <div class="rsvp__inner">
+    <h2 class="section-title" id="rsvpTitle">Will you be there?</h2>
+    <div class="rule" aria-hidden="true"></div>
+    <p class="rsvp__blurb" id="rsvpBlurb">
+      One form, thirty seconds. Please reply by
+      <strong id="rsvpDeadlineInline">September 1st</strong> so we can plan the
+      food and the seating.
+    </p>
+
+    <div class="deadline-passed" id="deadlinePassed" hidden>
+      The RSVP date has passed — but please still fill this in, or text us. We'll
+      squeeze you in.
+    </div>
+
+    <form class="form" id="rsvpForm" novalidate>
+
+      <!-- honeypot: hidden from people, catnip for bots -->
+      <div class="hp" aria-hidden="true">
+        <label for="website">Leave this empty</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label for="name">Your name <span class="req">*</span></label>
+        <input type="text" id="name" name="name" autocomplete="name" required
+               placeholder="First and last name">
+        <p class="err" id="err-name" hidden></p>
+      </div>
+
+      <fieldset class="field field--choice">
+        <legend>Can you make it? <span class="req">*</span></legend>
+        <div class="choices">
+          <label class="choice choice--yes">
+            <input type="radio" name="attending" value="yes" required>
+            <span class="choice__box">
+              <span class="choice__t">Joyfully accept</span>
+              <span class="choice__s">Wouldn't miss it</span>
+            </span>
+          </label>
+          <label class="choice choice--no">
+            <input type="radio" name="attending" value="no" required>
+            <span class="choice__box">
+              <span class="choice__t">Regretfully decline</span>
+              <span class="choice__s">Can't be there</span>
+            </span>
+          </label>
+        </div>
+        <p class="err" id="err-attending" hidden></p>
+      </fieldset>
+
+      <!-- ---- only shown when attending = yes ---- -->
+      <div class="ifyes" id="ifYes" hidden>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="adults">Adults</label>
+            <input type="number" id="adults" name="adults" min="0" max="30" step="1" value="1" inputmode="numeric">
+          </div>
+          <div class="field">
+            <label for="kids">Kids</label>
+            <input type="number" id="kids" name="kids" min="0" max="30" step="1" value="0" inputmode="numeric">
+          </div>
+          <div class="field field--total">
+            <span class="total__l">Total</span>
+            <span class="total__n" id="totalGuests">1</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="guestNames">Who's coming with you?</label>
+          <input type="text" id="guestNames" name="guestNames"
+                 placeholder="Names of your guests — helps us with place cards">
+        </div>
+
+        <fieldset class="field">
+          <legend>Anything we should know about food?</legend>
+          <div class="checks">
+            <label class="check"><input type="checkbox" name="dietary" value="Vegetarian"><span>Vegetarian</span></label>
+            <label class="check"><input type="checkbox" name="dietary" value="Jain"><span>Jain</span></label>
+            <label class="check"><input type="checkbox" name="dietary" value="Vegan"><span>Vegan</span></label>
+            <label class="check"><input type="checkbox" name="dietary" value="No onion / garlic"><span>No onion&nbsp;/&nbsp;garlic</span></label>
+            <label class="check"><input type="checkbox" name="dietary" value="Gluten-free"><span>Gluten-free</span></label>
+            <label class="check"><input type="checkbox" name="dietary" value="Nut allergy"><span>Nut allergy</span></label>
+          </div>
+          <input type="text" id="dietaryNotes" name="dietaryNotes"
+                 placeholder="Allergies or anything else — we'll take care of it">
+        </fieldset>
+      </div>
+
+      <div class="field">
+        <label for="message" id="messageLabel">A birthday message for Parsattom</label>
+        <textarea id="message" name="message" rows="4"
+                  placeholder="We're collecting these into a book for him — a memory, a thank you, a one-liner. Anything."></textarea>
+        <p class="hint">Coming or not, please leave one. It's the part he'll keep.</p>
+      </div>
+
+      <details class="more">
+        <summary>Contact details &amp; anything else</summary>
+        <div class="more__inner">
+          <div class="field-row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email"
+                     placeholder="So we can send reminders">
+              <p class="err" id="err-email" hidden></p>
+            </div>
+            <div class="field">
+              <label for="phone">Mobile</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel"
+                     placeholder="For day-of updates">
+            </div>
+          </div>
+          <div class="field">
+            <label for="notes">Notes for the hosts</label>
+            <textarea id="notes" name="notes" rows="3"
+                      placeholder="Arriving late, need a ride, bringing something, step-free access…"></textarea>
+          </div>
+        </div>
+      </details>
+
+      <button class="btn btn--primary btn--wide" type="submit" id="submitBtn">
+        Send my RSVP
+      </button>
+
+      <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+    </form>
+
+    <!-- ---- thank-you, swapped in after a successful submit ---- -->
+    <div class="thanks" id="thanks" hidden tabindex="-1">
+      <div class="thanks__mark" aria-hidden="true">
+        <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M15 27l8 8 15-16"/></svg>
+      </div>
+      <h3 class="thanks__h" id="thanksH">Thank you!</h3>
+      <p class="thanks__p" id="thanksP"></p>
+      <div class="thanks__actions" id="thanksActions">
+        <button class="btn btn--primary" type="button" id="btnCalendarThanks">Add to calendar</button>
+        <button class="btn btn--ghost" type="button" id="btnShare">Share invite</button>
+        <button class="linkbtn" type="button" id="btnEdit">Change my answer</button>
+      </div>
+      <p class="thanks__secret" id="thanksSecret" hidden></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================== -->
+<!-- FAQ                                                                -->
+<!-- ================================================================== -->
+<section class="faq" aria-labelledby="faqTitle">
+  <h2 class="section-title" id="faqTitle">Good to know</h2>
+  <div class="rule" aria-hidden="true"></div>
+  <div class="faq__list" id="faqList"></div>
+</section>
+
+
+<!-- ================================================================== -->
+<!-- FOOTER                                                             -->
+<!-- ================================================================== -->
+<footer class="footer">
+  <div class="stars stars--footer" aria-hidden="true">
+    <svg class="s s5"><use href="#star4"/></svg>
+    <svg class="s s6"><use href="#star4"/></svg>
+  </div>
+  <p class="footer__script script">Seventy&#8209;five years</p>
+  <p class="footer__host" id="footHost"></p>
+  <p class="footer__contact" id="footContact"></p>
+  <p class="footer__fine">
+    Questions, changes, cold feet — just reach out. We'd rather know.
+  </p>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
