@@ -585,30 +585,6 @@ input[aria-invalid="true"] { border-color: #C2593F; }
 }
 .choice input:focus-visible + .choice__box { outline: 2px solid var(--gold-deep); outline-offset: 3px; }
 
-/* --- checkboxes --------------------------------------------------------- */
-.checks {
-  display: flex; flex-wrap: wrap; gap: .55rem;
-  margin-bottom: .9rem;
-}
-.check { position: relative; cursor: pointer; }
-.check input { position: absolute; opacity: 0; width: 0; height: 0; }
-.check span {
-  display: inline-block;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--cream-soft);
-  padding: .5em 1.05em;
-  font-size: .86rem;
-  transition: all .16s ease;
-}
-.check:hover span { border-color: var(--gold); }
-.check input:checked + span {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--cream);
-}
-.check input:focus-visible + span { outline: 2px solid var(--gold-deep); outline-offset: 2px; }
-
 /* --- collapsible extra section ------------------------------------------ */
 .more {
   border-top: 1px solid var(--line);

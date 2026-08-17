@@ -58,8 +58,6 @@
           email: r.email || '',
           phone: r.phone || '',
           guestNames: r.guestNames || '',
-          dietary: (r.dietary || []).join(', '),
-          dietaryNotes: r.dietaryNotes || '',
           message: r.message || '',
           notes: r.notes || ''
         };
@@ -91,13 +89,10 @@
     var yes = rows.filter(function (r) { return r.attending === 'Yes'; });
     var no  = rows.filter(function (r) { return r.attending !== 'Yes'; });
     var heads  = yes.reduce(function (a, r) { return a + (r.total || 0); }, 0);
-    var diet   = yes.filter(function (r) { return r.dietary || r.dietaryNotes; }).length;
-
     var cards = [
       ['stat--hero', heads, 'people coming'],
       ['', yes.length, 'households in'],
-      ['', no.length, 'no'],
-      ['', diet, 'dietary needs']
+      ['', no.length, 'no']
     ];
 
     $('#stats').innerHTML = cards.map(function (c) {
@@ -109,8 +104,7 @@
   function renderTable(filter) {
     var q = (filter || '').trim().toLowerCase();
     var shown = !q ? rows : rows.filter(function (r) {
-      return [r.name, r.email, r.phone, r.guestNames, r.dietary,
-              r.dietaryNotes, r.notes, r.message]
+      return [r.name, r.email, r.phone, r.guestNames, r.notes, r.message]
         .join(' ').toLowerCase().indexOf(q) > -1;
     });
 
@@ -126,15 +120,12 @@
         r.phone ? '<a href="tel:' + esc(r.phone.replace(/[^\d+]/g, '')) + '">' + esc(r.phone) + '</a>' : ''
       ].filter(Boolean).join('<br>');
 
-      var diet = [r.dietary, r.dietaryNotes].filter(Boolean).join(', ');
-
       return '<tr>' +
         '<td><strong>' + esc(r.name) + '</strong></td>' +
         '<td><span class="pill pill--' + (r.attending === 'Yes' ? 'yes' : 'no') + '">' +
           esc(r.attending) + '</span></td>' +
         '<td><strong>' + (r.attending === 'Yes' ? r.total : '—') + '</strong></td>' +
         '<td class="cell-msg">' + esc(r.guestNames) + '</td>' +
-        '<td class="cell-msg">' + esc(diet) + '</td>' +
         '<td class="cell-msg">' + contact + '</td>' +
         '<td class="cell-msg">' + esc(r.notes) + '</td>' +
         '<td>' + esc(when) + '</td>' +
@@ -164,7 +155,7 @@
   /* -------------------------------------------------------------- csv -- */
   function csv() {
     var cols = ['Name', 'Attending', 'People', 'Email', 'Phone',
-                'Bringing', 'Dietary', 'Dietary notes', 'Notes', 'Message', 'RSVP date'];
+                'Bringing', 'Notes', 'Message', 'RSVP date'];
 
     function cell(v) {
       var s = String(v == null ? '' : v);
@@ -174,7 +165,7 @@
     var lines = [cols.join(',')];
     rows.forEach(function (r) {
       lines.push([r.name, r.attending, r.total, r.email, r.phone,
-                  r.guestNames, r.dietary, r.dietaryNotes, r.notes, r.message,
+                  r.guestNames, r.notes, r.message,
                   r.timestamp].map(cell).join(','));
     });
 

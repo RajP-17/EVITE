@@ -35,8 +35,8 @@ window.EVITE_CONFIG = {
     addressLine1: "1519 Scenic Club Drive",
     addressLine2: "Cary, NC 27519",
 
-    dressCode: "Indian Bandhini",
-    dressCodeNote: "Bandhini prints in golds, creams and warm colours. Anything festive is welcome. Comfort over perfection.",
+    dressCode: "Indian Bandhini & Kurta Pyjama",
+    dressCodeNote: "Bandhini prints and kurta pyjama in golds, creams and warm colours. Anything festive is welcome. Comfort over perfection.",
 
     // Last day to RSVP.
     rsvpDeadline: "2026-09-01T23:59:59-04:00",
@@ -50,7 +50,7 @@ window.EVITE_CONFIG = {
 
     // Optional extra notes. Leave "" to hide the card entirely.
     parkingNote: "Street parking is available along Scenic Club Drive. Please park a little further down the street so the driveway doesn't give the surprise away.",
-    foodNote: "Dinner will be served. Full vegetarian and Jain options available. Tell us below and we'll take care of it.",
+    foodNote: "Dinner will be served. Full vegetarian options available.",
     giftsNote: "Your presence is the gift."
   },
 

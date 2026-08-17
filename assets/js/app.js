@@ -432,8 +432,6 @@
         attending:    attending,
         guests:       yes ? Math.max(0, parseInt($('#guests').value, 10) || 0) : 0,
         guestNames:   yes ? $('#guestNames').value.trim() : '',
-        dietary:      yes ? $$('input[name="dietary"]:checked', f).map(function (c) { return c.value; }) : [],
-        dietaryNotes: yes ? $('#dietaryNotes').value.trim() : '',
         message:      $('#message').value.trim(),
         email:        $('#email').value.trim(),
         phone:        $('#phone').value.trim(),
@@ -497,7 +495,7 @@
     }
 
     function sendFormspree(data) {
-      var flat = Object.assign({}, data, { dietary: data.dietary.join(', ') });
+      var flat = Object.assign({}, data);
       delete flat.website;
       return fetch('https://formspree.io/f/' + CFG.rsvp.formspreeId, {
         method: 'POST',
@@ -623,11 +621,6 @@
         if (prev.attending === 'yes') {
           $('#guests').value = prev.guests != null ? prev.guests : 1;
           $('#guestNames').value = prev.guestNames || '';
-          $('#dietaryNotes').value = prev.dietaryNotes || '';
-          (prev.dietary || []).forEach(function (v) {
-            var c = f.querySelector('input[name="dietary"][value="' + v.replace(/"/g, '\\"') + '"]');
-            if (c) c.checked = true;
-          });
         }
         returning = true;
         $('#rsvpBlurb').textContent =

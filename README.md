@@ -6,7 +6,7 @@ framework, no npm install. Open `index.html` and it runs.
 
 ```
 index.html              the invitation + RSVP form
-rsvps.html              host dashboard (who's coming, dietary needs, messages)
+rsvps.html              host dashboard (who's coming, notes, messages)
 assets/js/config.js     ← the only file you normally edit
 assets/css/styles.css   styling
 assets/js/app.js        invitation behaviour
@@ -27,7 +27,7 @@ from that one file. It's currently filled in from the printed invitation:
 | What | 75th Birthday, surprise |
 | When | Saturday 19 September 2026, 6:00 PM |
 | Where | 1519 Scenic Club Drive, Cary, NC 27519 |
-| Dress | Indian Bandhini |
+| Dress | Indian Bandhini & Kurta Pyjama |
 | RSVP by | 1 September 2026 |
 
 **A few things I filled in that you should check or change:**
@@ -135,7 +135,7 @@ works too, but a local server is closer to the real thing.)
 `rsvps.html`, e.g. `https://…github.io/evite/rsvps.html`. Enter the
 `ADMIN_KEY` you set in `Code.gs` and you get:
 
-- headcount, yes/no split, households in, how many have dietary needs
+- headcount, yes/no split, how many households are in
 - a searchable table of every RSVP with contact details and notes
 - every birthday message, laid out ready to print for the memory book
 - CSV export for the caterer
