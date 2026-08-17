@@ -1,5 +1,5 @@
 /* =============================================================================
- * app.js — invitation page behaviour
+ * app.js: invitation page behaviour
  *
  * Everything party-specific comes from config.js. Nothing here needs editing.
  * ========================================================================== */
@@ -58,7 +58,7 @@
   /* 1. Render the invitation from config                                 */
   /* ==================================================================== */
   function render() {
-    document.title = EV.honoreePossessive + ' ' + EV.occasion + ' — RSVP';
+    document.title = EV.honoreePossessive + ' ' + EV.occasion + ' RSVP';
 
     var pv = CFG.share || {};
     if (pv.previewTitle) {
@@ -94,7 +94,7 @@
       setText('#detArrival',
         'Please arrive by ' + EV.guestArrival + '. ' + EV.honoreeNickname +
         ' walks in at ' + (EV.surpriseMoment || timeShort(START)) +
-        ' — everyone needs to be inside before then.', true);
+        '. Everyone needs to be inside before then.', true);
     }
 
     setText('#detWhere',
@@ -111,7 +111,7 @@
       setText('#detSecret',
         'This is a surprise. Please don\'t mention it to ' + EV.honoreeNickname +
         ', don\'t post about it, and don\'t tag the address anywhere until after ' +
-        'the party. If he asks what you\'re doing that evening — you\'re busy.');
+        'the party. If he asks what you\'re doing that evening, you\'re busy.');
     }
 
     /* --- maps --- */
@@ -121,7 +121,7 @@
     $('#linkAppleMaps').href  = 'https://maps.apple.com/?q=' + q;
 
     /* --- footer --- */
-    setText('#footHost', EV.hostedBy ? 'Hosted with love by ' + EV.hostedBy : '');
+    setText('#footHost', EV.hostedBy ? 'From ' + EV.hostedBy : '');
 
     var contact = $('#footContact');
     var bits = [];
@@ -236,7 +236,7 @@
     if (daysToDeadline > 0) {
       note.textContent = daysToDeadline === 1
         ? 'Today is the last day to RSVP.'
-        : daysToDeadline + ' days left to RSVP — the deadline is ' + deadlineLabel + '.';
+        : daysToDeadline + ' days left to RSVP. The deadline is ' + deadlineLabel + '.';
     } else if (Date.now() < START.getTime()) {
       note.textContent = 'RSVPs closed on ' + deadlineLabel + ', but late replies are still welcome.';
     }
@@ -249,7 +249,7 @@
   /* 4. Calendar                                                          */
   /* ==================================================================== */
   function calTitle() {
-    return (EV.isSurprise ? 'Surprise — ' : '') +
+    return (EV.isSurprise ? 'Surprise: ' : '') +
            EV.honoreePossessive + ' ' + EV.occasion;
   }
 
@@ -258,7 +258,7 @@
     if (EV.isSurprise && EV.guestArrival) {
       lines.push('Arrive by ' + EV.guestArrival + '. ' + EV.honoreeNickname +
                  ' arrives at ' + (EV.surpriseMoment || timeShort(START)) + '.');
-      lines.push('It\'s a surprise — please keep it quiet.');
+      lines.push('It\'s a surprise, please keep it quiet.');
     }
     if (EV.dressCode) lines.push('Dress code: ' + EV.dressCode + '.');
     if (EV.contactEmail || EV.contactPhone) {
@@ -354,7 +354,7 @@
   function share(btn) {
     var url = location.href.split('#')[0];
     var text = ((CFG.share && CFG.share.shareText) || 'You\'re invited!') +
-               (EV.isSurprise ? ' (It\'s a surprise — please don\'t post about it.)' : '');
+               (EV.isSurprise ? ' (It\'s a surprise, please don\'t post about it.)' : '');
 
     if (navigator.share) {
       navigator.share({ title: (CFG.share && CFG.share.previewTitle) || document.title,
@@ -403,14 +403,7 @@
       r.addEventListener('change', function () { syncAttending(); clearErr('attending'); });
     });
 
-    /* --- live headcount --- */
-    function syncTotal() {
-      var a = parseInt($('#adults').value, 10); if (isNaN(a) || a < 0) a = 0;
-      var k = parseInt($('#kids').value, 10);   if (isNaN(k) || k < 0) k = 0;
-      $('#totalGuests').textContent = a + k;
-    }
-    $('#adults').addEventListener('input', syncTotal);
-    $('#kids').addEventListener('input', syncTotal);
+    $('#guests').addEventListener('input', function () { clearErr('guests'); });
 
     /* --- validation --- */
     function showErr(field, msg) {
@@ -437,8 +430,7 @@
       return {
         name:         $('#name').value.trim(),
         attending:    attending,
-        adults:       yes ? Math.max(0, parseInt($('#adults').value, 10) || 0) : 0,
-        kids:         yes ? Math.max(0, parseInt($('#kids').value, 10) || 0) : 0,
+        guests:       yes ? Math.max(0, parseInt($('#guests').value, 10) || 0) : 0,
         guestNames:   yes ? $('#guestNames').value.trim() : '',
         dietary:      yes ? $$('input[name="dietary"]:checked', f).map(function (c) { return c.value; }) : [],
         dietaryNotes: yes ? $('#dietaryNotes').value.trim() : '',
@@ -456,16 +448,16 @@
 
       if (!data.name) { showErr('name', 'We need a name for the list.'); firstBad = firstBad || $('#name'); }
       if (!data.attending) {
-        showErr('attending', 'Let us know either way — a "no" is still helpful.');
+        showErr('attending', 'Let us know either way. A "no" is still helpful.');
         firstBad = firstBad || f.querySelector('input[name="attending"]');
       }
       if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) {
-        showErr('email', 'That email looks off — check it, or leave it blank.');
+        showErr('email', 'That email looks off. Check it, or leave it blank.');
         firstBad = firstBad || $('#email');
       }
-      if (data.attending === 'yes' && data.adults + data.kids < 1) {
-        showErr('name', 'If you\'re coming, the headcount needs to be at least 1.');
-        firstBad = firstBad || $('#adults');
+      if (data.attending === 'yes' && data.guests < 1) {
+        showErr('guests', 'If you\'re coming, that needs to be at least 1.');
+        firstBad = firstBad || $('#guests');
       }
 
       if (firstBad) {
@@ -491,7 +483,7 @@
         return { delivered: true };
       })
       .catch(function (err) {
-        // A CORS/redirect hiccup means we can't READ the reply — but the write
+        // A CORS/redirect hiccup means we can't READ the reply, but the write
         // very likely landed. Retry opaquely so the RSVP isn't lost, then say so.
         if (err instanceof TypeError) {
           return fetch(CFG.rsvp.endpoint, {
@@ -557,7 +549,7 @@
         sending = false;
         submitBtn.disabled = false;
         status.dataset.tone = 'error';
-        status.innerHTML = 'That didn\'t go through — ' + esc(err.message || 'network trouble') +
+        status.innerHTML = 'That didn\'t go through. ' + esc(err.message || 'Network trouble') +
           '. Please try again, or email <a href="mailto:' + esc(EV.contactEmail || '') + '">' +
           esc(EV.contactEmail || 'the hosts') + '</a>.';
       });
@@ -567,19 +559,19 @@
     function showThanks(data, result) {
       var yes = data.attending === 'yes';
       var head = yes ? 'See you there' : 'Thank you for telling us';
-      var total = data.adults + data.kids;
+      var total = data.guests;
 
       var msg;
       if (yes) {
         msg = 'You\'re on the list' + (total > 1 ? ' for ' + total + ' people' : '') + '. ' +
               'We\'ll send a reminder closer to the day.';
       } else {
-        msg = 'We\'ll miss you — and ' + EV.honoreeNickname +
+        msg = 'We\'ll miss you, and ' + EV.honoreeNickname +
               ' will hear that you were thinking of him.';
       }
 
       if (result && result.demo) {
-        msg = 'Saved to this browser only — the site isn\'t connected to a backend yet, ' +
+        msg = 'Saved to this browser only. The site isn\'t connected to a backend yet, ' +
               'so nobody has received this. See README.md.';
       } else if (result && result.unconfirmed) {
         msg += ' (We couldn\'t read the confirmation back, so if you don\'t hear from us in ' +
@@ -629,8 +621,7 @@
         var radio = f.querySelector('input[name="attending"][value="' + prev.attending + '"]');
         if (radio) radio.checked = true;
         if (prev.attending === 'yes') {
-          $('#adults').value = prev.adults != null ? prev.adults : 1;
-          $('#kids').value = prev.kids != null ? prev.kids : 0;
+          $('#guests').value = prev.guests != null ? prev.guests : 1;
           $('#guestNames').value = prev.guestNames || '';
           $('#dietaryNotes').value = prev.dietaryNotes || '';
           (prev.dietary || []).forEach(function (v) {
@@ -640,13 +631,12 @@
         }
         returning = true;
         $('#rsvpBlurb').textContent =
-          'Welcome back, ' + prev.name.split(' ')[0] + '. Change anything you need to and send it again — ' +
-          'your latest answer is the one that counts.';
+          'Welcome back, ' + prev.name.split(' ')[0] + '. Change anything you need to and send it again. ' +
+          'Your latest answer is the one that counts.';
       }
     } catch (e) { /* nothing saved, or storage blocked */ }
 
     syncAttending();
-    syncTotal();
   }
 
   /* ==================================================================== */

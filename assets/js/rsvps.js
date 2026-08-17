@@ -1,5 +1,5 @@
 /* =============================================================================
- * rsvps.js — host dashboard
+ * rsvps.js: host dashboard
  *
  * Reads back from whatever config.js points at:
  *   mode "appsscript" → GET the Web App with ?key=<passphrase>
@@ -33,7 +33,7 @@
   }
 
   if (EV.honoreePossessive) {
-    document.title = 'RSVPs — ' + EV.honoreePossessive + ' ' + (EV.occasion || '');
+    document.title = 'RSVPs for ' + EV.honoreePossessive + ' ' + (EV.occasion || '');
   }
 
   /* ------------------------------------------------------------ fetch -- */
@@ -42,7 +42,7 @@
 
     if (m === 'formspree') {
       return Promise.reject(new Error(
-        'Formspree mode stores RSVPs on formspree.io — open your dashboard there. ' +
+        'Formspree mode stores RSVPs on formspree.io. Open your dashboard there. ' +
         'Switch config.js to "appsscript" if you want this page to work.'));
     }
 
@@ -54,9 +54,7 @@
           timestamp: r.submittedAt,
           name: r.name,
           attending: r.attending === 'yes' ? 'Yes' : 'No',
-          adults: r.adults || 0,
-          kids: r.kids || 0,
-          total: (r.adults || 0) + (r.kids || 0),
+          total: r.guests || 0,
           email: r.email || '',
           phone: r.phone || '',
           guestNames: r.guestNames || '',
@@ -93,16 +91,12 @@
     var yes = rows.filter(function (r) { return r.attending === 'Yes'; });
     var no  = rows.filter(function (r) { return r.attending !== 'Yes'; });
     var heads  = yes.reduce(function (a, r) { return a + (r.total || 0); }, 0);
-    var adults = yes.reduce(function (a, r) { return a + (r.adults || 0); }, 0);
-    var kids   = yes.reduce(function (a, r) { return a + (r.kids || 0); }, 0);
     var diet   = yes.filter(function (r) { return r.dietary || r.dietaryNotes; }).length;
 
     var cards = [
       ['stat--hero', heads, 'people coming'],
-      ['', yes.length, 'yes'],
+      ['', yes.length, 'households in'],
       ['', no.length, 'no'],
-      ['', adults, 'adults'],
-      ['', kids, 'kids'],
       ['', diet, 'dietary needs']
     ];
 
@@ -132,14 +126,12 @@
         r.phone ? '<a href="tel:' + esc(r.phone.replace(/[^\d+]/g, '')) + '">' + esc(r.phone) + '</a>' : ''
       ].filter(Boolean).join('<br>');
 
-      var diet = [r.dietary, r.dietaryNotes].filter(Boolean).join(' — ');
+      var diet = [r.dietary, r.dietaryNotes].filter(Boolean).join(', ');
 
       return '<tr>' +
         '<td><strong>' + esc(r.name) + '</strong></td>' +
         '<td><span class="pill pill--' + (r.attending === 'Yes' ? 'yes' : 'no') + '">' +
           esc(r.attending) + '</span></td>' +
-        '<td>' + (r.attending === 'Yes' ? r.adults : '—') + '</td>' +
-        '<td>' + (r.attending === 'Yes' ? r.kids : '—') + '</td>' +
         '<td><strong>' + (r.attending === 'Yes' ? r.total : '—') + '</strong></td>' +
         '<td class="cell-msg">' + esc(r.guestNames) + '</td>' +
         '<td class="cell-msg">' + esc(diet) + '</td>' +
@@ -155,7 +147,7 @@
     $('#messages').hidden = withMsg.length === 0;
     $('#msgList').innerHTML = withMsg.map(function (r) {
       return '<div class="msg"><p class="msg__q">“' + esc(r.message) +
-             '”</p><p class="msg__a">— ' + esc(r.name) + '</p></div>';
+             '”</p><p class="msg__a">' + esc(r.name) + '</p></div>';
     }).join('');
   }
 
@@ -171,7 +163,7 @@
 
   /* -------------------------------------------------------------- csv -- */
   function csv() {
-    var cols = ['Name', 'Attending', 'Adults', 'Kids', 'Total', 'Email', 'Phone',
+    var cols = ['Name', 'Attending', 'People', 'Email', 'Phone',
                 'Bringing', 'Dietary', 'Dietary notes', 'Notes', 'Message', 'RSVP date'];
 
     function cell(v) {
@@ -181,7 +173,7 @@
 
     var lines = [cols.join(',')];
     rows.forEach(function (r) {
-      lines.push([r.name, r.attending, r.adults, r.kids, r.total, r.email, r.phone,
+      lines.push([r.name, r.attending, r.total, r.email, r.phone,
                   r.guestNames, r.dietary, r.dietaryNotes, r.notes, r.message,
                   r.timestamp].map(cell).join(','));
     });
@@ -246,7 +238,7 @@
     location.reload();
   });
 
-  /* Demo mode needs no passphrase — nothing is on a server to protect. */
+  /* Demo mode needs no passphrase, nothing is on a server to protect. */
   if (mode() === 'demo') {
     unlock('');
   } else {

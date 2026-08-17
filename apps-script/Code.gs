@@ -1,6 +1,6 @@
 /**
  * =============================================================================
- * Parsattom's 75th — RSVP backend (Google Apps Script)
+ * Parsattom's 75th: RSVP backend (Google Apps Script)
  * =============================================================================
  *
  * This turns a plain Google Sheet into the RSVP database for the invite site.
@@ -24,7 +24,10 @@
  *  "New version" ▸ Deploy. The URL stays the same.
  * ========================================================================== */
 
-/** Passphrase for reading RSVPs back (host dashboard + CSV). CHANGE THIS. */
+/** Passphrase for reading RSVPs back (host dashboard + CSV). CHANGE THIS.
+ *  Set the real value in the Apps Script editor only. Keep the placeholder
+ *  here: this file gets published with the site, so a real passphrase in it
+ *  would be readable by anyone. */
 var ADMIN_KEY = 'change-me-before-you-deploy';
 
 /** Tab the RSVPs are written to. Created automatically. */
@@ -34,9 +37,7 @@ var HEADERS = [
   'Timestamp',
   'Name',
   'Attending',
-  'Adults',
-  'Kids',
-  'Total',
+  'People',
   'Email',
   'Phone',
   'Guest names',
@@ -46,6 +47,9 @@ var HEADERS = [
   'Notes for hosts',
   'Superseded'
 ];
+
+/** 1-based column of "Superseded". Kept in step with HEADERS above. */
+var SUPERSEDED_COL = HEADERS.length;
 
 
 /* ============================ WRITE (guest RSVP) ========================== */
@@ -78,8 +82,7 @@ function doPost(e) {
     var attending = String(payload.attending || '').trim().toLowerCase() === 'yes'
       ? 'Yes' : 'No';
 
-    var adults = attending === 'Yes' ? toInt(payload.adults, 1) : 0;
-    var kids   = attending === 'Yes' ? toInt(payload.kids, 0)   : 0;
+    var guests = attending === 'Yes' ? toInt(payload.guests, 1) : 0;
 
     var sheet = getSheet();
 
@@ -91,9 +94,7 @@ function doPost(e) {
       new Date(),
       name,
       attending,
-      adults,
-      kids,
-      adults + kids,
+      guests,
       String(payload.email || '').trim(),
       String(payload.phone || '').trim(),
       String(payload.guestNames || '').trim(),
@@ -104,7 +105,7 @@ function doPost(e) {
       ''
     ]);
 
-    notifyHost(name, attending, adults + kids, payload);
+    notifyHost(name, attending, guests, payload);
 
     return json({ ok: true });
 
@@ -132,22 +133,20 @@ function doGet(e) {
   for (var i = 1; i < values.length; i++) {
     var r = values[i];
     if (!r[1]) continue;                 // blank row
-    if (String(r[13]).trim() !== '') continue;   // superseded
+    if (String(r[SUPERSEDED_COL - 1]).trim() !== '') continue;   // superseded
 
     rows.push({
       timestamp:    r[0] instanceof Date ? r[0].toISOString() : String(r[0]),
       name:         String(r[1]),
       attending:    String(r[2]),
-      adults:       Number(r[3]) || 0,
-      kids:         Number(r[4]) || 0,
-      total:        Number(r[5]) || 0,
-      email:        String(r[6]),
-      phone:        String(r[7]),
-      guestNames:   String(r[8]),
-      dietary:      String(r[9]),
-      dietaryNotes: String(r[10]),
-      message:      String(r[11]),
-      notes:        String(r[12])
+      total:        Number(r[3]) || 0,
+      email:        String(r[4]),
+      phone:        String(r[5]),
+      guestNames:   String(r[6]),
+      dietary:      String(r[7]),
+      dietaryNotes: String(r[8]),
+      message:      String(r[9]),
+      notes:        String(r[10])
     });
   }
 
@@ -158,7 +157,8 @@ function doGet(e) {
 /* ================================ HELPERS ================================= */
 
 function setup() {
-  getSheet();
+  var sheet = getSheet();
+  writeHeaders(sheet);          // safe to re-run: only the header row is touched
   SpreadsheetApp.getActiveSpreadsheet().toast(
     'Sheet is ready. Now: Deploy ▸ New deployment ▸ Web app.', 'RSVP setup', 8);
 }
@@ -172,17 +172,28 @@ function getSheet() {
   }
 
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow(HEADERS);
-    sheet.getRange(1, 1, 1, HEADERS.length)
-         .setFontWeight('bold')
-         .setBackground('#f3ead2');
-    sheet.setFrozenRows(1);
-    sheet.setColumnWidth(1, 160);
-    sheet.setColumnWidth(2, 190);
-    sheet.setColumnWidth(12, 320);
+    writeHeaders(sheet);
   }
 
   return sheet;
+}
+
+/** Write (or rewrite) the header row. Never touches the RSVPs below it. */
+function writeHeaders(sheet) {
+  sheet.getRange(1, 1, 1, HEADERS.length)
+       .setValues([HEADERS])
+       .setFontWeight('bold')
+       .setBackground('#f3ead2');
+
+  // Clear any leftover headings from an older, wider layout.
+  var extra = sheet.getMaxColumns() - HEADERS.length;
+  if (extra > 0) {
+    sheet.getRange(1, HEADERS.length + 1, 1, extra).clearContent().clearFormat();
+  }
+  sheet.setFrozenRows(1);
+  sheet.setColumnWidth(1, 160);   // Timestamp
+  sheet.setColumnWidth(2, 190);   // Name
+  sheet.setColumnWidth(10, 320);  // Message for Parsattom
 }
 
 /** Mark earlier rows for this person as superseded so counts stay honest. */
@@ -191,7 +202,7 @@ function markPreviousAsSuperseded(sheet, name) {
   if (last < 2) return;
 
   var names = sheet.getRange(2, 2, last - 1, 1).getValues();
-  var flags = sheet.getRange(2, 14, last - 1, 1).getValues();
+  var flags = sheet.getRange(2, SUPERSEDED_COL, last - 1, 1).getValues();
   var target = name.toLowerCase();
   var changed = false;
 
@@ -202,7 +213,7 @@ function markPreviousAsSuperseded(sheet, name) {
     }
   }
 
-  if (changed) sheet.getRange(2, 14, last - 1, 1).setValues(flags);
+  if (changed) sheet.getRange(2, SUPERSEDED_COL, last - 1, 1).setValues(flags);
 }
 
 /** Email the host on every RSVP. Comment out the body to switch this off. */
@@ -218,7 +229,7 @@ function notifyHost(name, attending, total, payload) {
     var body =
       name + ' just RSVP\'d.\n\n' +
       'Attending: ' + attending + '\n' +
-      'Headcount: ' + total + '\n' +
+      'People from their household: ' + total + '\n' +
       'Email: ' + (payload.email || '—') + '\n' +
       'Phone: ' + (payload.phone || '—') + '\n' +
       'With: ' + (payload.guestNames || '—') + '\n' +

@@ -9,7 +9,8 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#FBF6E9">
 <meta property="og:type" content="website">
-<meta property="og:title" id="ogTitle" content="You're Invited — Saturday, September 19">
+<meta property="og:url" content="https://rajp-17.github.io/EVITE/">
+<meta property="og:title" id="ogTitle" content="You're Invited: Saturday, September 19">
 <meta property="og:description" id="ogDesc" content="An evening in Cary. Please RSVP by September 1st.">
 <meta name="twitter:card" content="summary">
 
@@ -66,7 +67,7 @@
   <strong>Not live yet.</strong>
   <span>RSVPs are only being saved to this browser. Open
   <code>assets/js/config.js</code> and set up a backend before you send this
-  link out — see <code>README.md</code>.</span>
+  link out. See <code>README.md</code>.</span>
 </div>
 
 
@@ -98,7 +99,7 @@
 
     <p class="surprise-tag" id="surpriseTag" hidden>
       <span class="shh" aria-hidden="true">🤫</span>
-      <span>It's a <strong>surprise</strong> — please keep it between us</span>
+      <span>It's a <strong>surprise</strong>, please keep it between us</span>
     </p>
 
     <div class="datebar">
@@ -138,7 +139,7 @@
 
   <noscript>
     <div class="noscript">
-      <p><strong>Please turn on JavaScript</strong> to RSVP here — or just reply
+      <p><strong>Please turn on JavaScript</strong> to RSVP here, or just reply
       to the message you got this link in and we'll add you to the list.</p>
     </div>
   </noscript>
@@ -225,7 +226,7 @@
     </p>
 
     <div class="deadline-passed" id="deadlinePassed" hidden>
-      The RSVP date has passed — but please still fill this in, or text us. We'll
+      The RSVP date has passed, but please still fill this in, or text us. We'll
       squeeze you in.
     </div>
 
@@ -268,25 +269,16 @@
       <!-- ---- only shown when attending = yes ---- -->
       <div class="ifyes" id="ifYes" hidden>
 
-        <div class="field-row">
-          <div class="field">
-            <label for="adults">Adults</label>
-            <input type="number" id="adults" name="adults" min="0" max="30" step="1" value="1" inputmode="numeric">
-          </div>
-          <div class="field">
-            <label for="kids">Kids</label>
-            <input type="number" id="kids" name="kids" min="0" max="30" step="1" value="0" inputmode="numeric">
-          </div>
-          <div class="field field--total">
-            <span class="total__l">Total</span>
-            <span class="total__n" id="totalGuests">1</span>
-          </div>
+        <div class="field field--count">
+          <label for="guests">How many people are coming from your household?</label>
+          <input type="number" id="guests" name="guests" min="1" max="30" step="1" value="1" inputmode="numeric">
+          <p class="err" id="err-guests" hidden></p>
         </div>
 
         <div class="field">
           <label for="guestNames">Who's coming with you?</label>
           <input type="text" id="guestNames" name="guestNames"
-                 placeholder="Names of your guests — helps us with place cards">
+                 placeholder="Names of your guests, helps us with place cards">
         </div>
 
         <fieldset class="field">
@@ -300,14 +292,14 @@
             <label class="check"><input type="checkbox" name="dietary" value="Nut allergy"><span>Nut allergy</span></label>
           </div>
           <input type="text" id="dietaryNotes" name="dietaryNotes"
-                 placeholder="Allergies or anything else — we'll take care of it">
+                 placeholder="Allergies or anything else. We'll take care of it">
         </fieldset>
       </div>
 
       <div class="field">
         <label for="message" id="messageLabel">A birthday message for Parsattom</label>
         <textarea id="message" name="message" rows="4"
-                  placeholder="We're collecting these into a book for him — a memory, a thank you, a one-liner. Anything."></textarea>
+                  placeholder="We're collecting these into a book for him. A memory, a thank you, a one-liner. Anything."></textarea>
         <p class="hint">Coming or not, please leave one. It's the part he'll keep.</p>
       </div>
 
@@ -382,7 +374,7 @@
   <p class="footer__host" id="footHost"></p>
   <p class="footer__contact" id="footContact"></p>
   <p class="footer__fine">
-    Questions, changes, cold feet — just reach out. We'd rather know.
+    Questions, changes, cold feet. Just reach out, we'd rather know.
   </p>
 </footer>
 

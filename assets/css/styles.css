@@ -1,5 +1,5 @@
 /* =============================================================================
-   Parsattom's 75th — invitation + RSVP
+   Parsattom's 75th: invitation + RSVP
    Palette and type deliberately mirror the printed invitation:
    cream ground, gold foil, black ink, script display face.
    ========================================================================== */
@@ -113,7 +113,7 @@ p:last-child { margin-bottom: 0; }
 
 /* --- balloons ----------------------------------------------------------- */
 /* The wrapper needs real dimensions: the balloons inside are absolutely
-   positioned, so an auto-sized wrapper would collapse to 0×0 — and the
+   positioned, so an auto-sized wrapper would collapse to 0×0, and the
    `svg { max-width: 100% }` in the reset would then squash them to nothing. */
 .balloons {
   position: absolute;
@@ -514,6 +514,9 @@ p:last-child { margin-bottom: 0; }
 }
 .req { color: var(--gold-deep); }
 
+/* Headcount: a short box, not a full-width one. */
+.field--count input { max-width: 8rem; }
+
 input[type="text"], input[type="email"], input[type="tel"],
 input[type="number"], textarea {
   width: 100%;
@@ -542,24 +545,6 @@ textarea { resize: vertical; min-height: 5.5em; line-height: 1.6; }
 }
 .field-row .field { margin-bottom: 1.5rem; }
 
-.field--total {
-  display: flex; flex-direction: column; justify-content: flex-end;
-  align-items: center; text-align: center;
-  background: var(--cream-deep);
-  border: 1px dashed var(--gold-pale);
-  border-radius: var(--radius);
-  padding: .45rem;
-}
-.total__l {
-  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--ink-faint);
-}
-.total__n {
-  font-family: var(--font-serif);
-  font-size: 1.9rem; line-height: 1.2; color: var(--gold-deep);
-  font-variant-numeric: lining-nums tabular-nums;
-  font-feature-settings: "lnum" 1, "tnum" 1;
-}
 
 .hint { font-size: .82rem; color: var(--ink-faint); margin: .55em 0 0; }
 .err  { font-size: .82rem; color: #A3341F; margin: .5em 0 0; }

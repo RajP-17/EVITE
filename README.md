@@ -1,7 +1,7 @@
-# Parsattom's 75th — invitation & RSVP site
+# Parsattom's 75th: invitation & RSVP site
 
 A one-page invitation with a working RSVP form, plus a private dashboard for
-whoever is counting heads. Built as plain HTML/CSS/JS — no build step, no
+whoever is counting heads. Built as plain HTML/CSS/JS with no build step, no
 framework, no npm install. Open `index.html` and it runs.
 
 ```
@@ -23,7 +23,7 @@ from that one file. It's currently filled in from the printed invitation:
 
 | | |
 |---|---|
-| Who | Parsattom — "Dada" |
+| Who | Parsattom, "Dada" |
 | What | 75th Birthday, surprise |
 | When | Saturday 19 September 2026, 6:00 PM |
 | Where | 1519 Scenic Club Drive, Cary, NC 27519 |
@@ -32,15 +32,16 @@ from that one file. It's currently filled in from the printed invitation:
 
 **A few things I filled in that you should check or change:**
 
-- **`guestArrival: "5:30 PM"`** — guests arrive 5:30, Dada walks in at 6:00.
+- **`guestArrival: "5:30 PM"`**: guests arrive 5:30, Dada walks in at 6:00.
   I inferred this because it's a surprise; the invitation only says 6 PM.
   Set `guestArrival: ""` to drop the callout entirely.
-- **`hostedBy: "The Patel Family"`** and **`contactName: "Raj"`** — placeholders.
+- **`hostedBy: "Alpesh Patel and family"`** is what the footer signs off with.
+  **`contactName: "Raj"`** is a placeholder.
 - **`contactEmail`** is set to your email. Add `contactPhone` if you want people
   to be able to text you on the day.
-- **`parkingNote` / `foodNote` / `giftsNote`** — I wrote sensible versions. Edit
+- **`parkingNote` / `foodNote` / `giftsNote`**: I wrote sensible versions. Edit
   or set to `""` to hide the card.
-- **`faq`** — six questions written for a surprise party. Add or delete freely.
+- **`faq`**: six questions written for a surprise party. Add or delete freely.
 
 Also worth knowing: the **link preview** (`share.previewTitle`) deliberately
 does *not* name Parsattom or say "surprise", so if the link gets forwarded to
@@ -50,12 +51,12 @@ the wrong group chat the preview card doesn't spoil it.
 
 ## 2. Collecting RSVPs
 
-Out of the box `rsvp.mode` is `"demo"` — the form works, but submissions are
+Out of the box `rsvp.mode` is `"demo"`. The form works, but submissions are
 saved to the visitor's own browser and nobody receives them. A dark warning
 banner shows across the top while this is on. **Pick one of the two options
 below before you send the link to anyone.**
 
-### Option A — Google Sheet (recommended)
+### Option A: Google Sheet (recommended)
 
 RSVPs land in a spreadsheet you own, you get an email on each one, and
 `rsvps.html` works. Free. About five minutes.
@@ -86,7 +87,7 @@ Submit a test RSVP. It should appear in the sheet within a second or two.
 > version ▸ Deploy.** The URL stays the same. If you skip this, your edits
 > won't be live.
 
-### Option B — Formspree (fastest)
+### Option B: Formspree (fastest)
 
 RSVPs arrive as email. Simpler, but the dashboard won't work.
 
@@ -96,7 +97,7 @@ RSVPs arrive as email. Simpler, but the dashboard won't work.
    rsvp: { mode: "formspree", formspreeId: "xbldnvqk" }
    ```
 
-The free tier caps monthly submissions — fine for a family party, worth
+The free tier caps monthly submissions, fine for a family party, worth
 checking if you're inviting a few hundred people.
 
 ---
@@ -131,15 +132,15 @@ works too, but a local server is closer to the real thing.)
 
 ## 4. The host dashboard
 
-`rsvps.html` — e.g. `https://…github.io/evite/rsvps.html`. Enter the
+`rsvps.html`, e.g. `https://…github.io/evite/rsvps.html`. Enter the
 `ADMIN_KEY` you set in `Code.gs` and you get:
 
-- headcount, yes/no split, adults vs kids, how many have dietary needs
+- headcount, yes/no split, households in, how many have dietary needs
 - a searchable table of every RSVP with contact details and notes
 - every birthday message, laid out ready to print for the memory book
 - CSV export for the caterer
 
-The passphrase is a doorknob lock, not a vault — it keeps a stray guest from
+The passphrase is a doorknob lock, not a vault. It keeps a stray guest from
 wandering in, but anyone determined could read it out of the page. Don't put
 anything genuinely sensitive in the form, and remember the Google Sheet itself
 is always the real source of truth.
@@ -149,7 +150,7 @@ is always the real source of truth.
 ## 5. Details worth knowing
 
 - **Repeat RSVPs replace earlier ones.** Someone submitting twice under the same
-  name doesn't get double-counted — the older row is flagged `replaced` in the
+  name doesn't get double-counted. The older row is flagged `replaced` in the
   sheet (never deleted) and dropped from the totals.
 - **Returning guests see their previous answer pre-filled**, and the button
   changes to *Update my RSVP*.
@@ -158,7 +159,7 @@ is always the real source of truth.
   a reminder the day before.
 - **Spam** is handled by a hidden honeypot field. Bots fill it in, people can't
   see it; those submissions are silently dropped.
-- **Accessibility** — keyboard-navigable, labelled fields, live-region status
+- **Accessibility**: keyboard-navigable, labelled fields, live-region status
   messages, and all animation stops under `prefers-reduced-motion`.
 - **Printing** the invitation page gives you a clean paper invite; printing the
   dashboard gives you a check-in list for the door.
@@ -172,7 +173,7 @@ is always the real source of truth.
 - [ ] `ADMIN_KEY` in `Code.gs` changed from the default
 - [ ] Arrival time in `config.js` is what you actually want guests to do
 - [ ] Host name, contact email and phone are right
-- [ ] Opened it on your phone — that's how nearly everyone will see it
+- [ ] Opened it on your phone, that's how nearly everyone will see it
 - [ ] Sent it to one person first as a sanity check
 
 🤫 And not a word to Dada.

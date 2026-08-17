@@ -1,5 +1,5 @@
 /* =============================================================================
- * config.js — THE ONLY FILE YOU NEED TO EDIT
+ * config.js: THE ONLY FILE YOU NEED TO EDIT
  * =============================================================================
  * Everything about the party lives here. Change a value, save, refresh.
  * Nothing else in the site has hard-coded party details.
@@ -36,22 +36,22 @@ window.EVITE_CONFIG = {
     addressLine2: "Cary, NC 27519",
 
     dressCode: "Indian Bandini & Kurta Pajama",
-    dressCodeNote: "Bandhani prints and kurta pajama in golds, creams and warm colours. Anything festive is welcome — comfort over perfection.",
+    dressCodeNote: "Bandhani prints and kurta pajama in golds, creams and warm colours. Anything festive is welcome. Comfort over perfection.",
 
     // Last day to RSVP.
     rsvpDeadline: "2026-09-01T23:59:59-04:00",
 
-    hostedBy: "The Patel Family",
+    hostedBy: "Alpesh Patel and family",
 
     // Who guests contact with questions.
     contactName: "Raj",
     contactEmail: "rajpatel211075@gmail.com",
-    contactPhone: "",   // e.g. "+1 919 555 0134" — leave "" to hide
+    contactPhone: "",   // e.g. "+1 919 555 0134". Leave "" to hide
 
     // Optional extra notes. Leave "" to hide the card entirely.
     parkingNote: "Street parking is available along Scenic Club Drive. Please park a little further down the street so the driveway doesn't give the surprise away.",
-    foodNote: "Dinner will be served. Full vegetarian and Jain options available — tell us below and we'll take care of it.",
-    giftsNote: "Your presence is the gift. If you'd still like to bring something, a handwritten note or a photo of you with Dada would mean the most."
+    foodNote: "Dinner will be served. Full vegetarian and Jain options available. Tell us below and we'll take care of it.",
+    giftsNote: "Your presence is the gift."
   },
 
   /* ---------------------------------------------------------------------
@@ -61,21 +61,21 @@ window.EVITE_CONFIG = {
   //
   //   "appsscript"  RECOMMENDED. Free, RSVPs land in your own Google Sheet,
   //                 and the host dashboard (rsvps.html) works. Setup takes
-  //                 about 5 minutes — see README.md, section "Collecting RSVPs".
+  //                 about 5 minutes. See README.md, section "Collecting RSVPs".
   //
   //   "formspree"   Easiest. Sign up at formspree.io, paste your form ID.
   //                 RSVPs arrive by email. Dashboard won't work.
   //
   //   "demo"        No backend. Saves to the visitor's own browser only.
   //                 A loud warning banner shows while this is on.
-  //                 THIS IS THE DEFAULT — switch it before you send the link.
+  //                 THIS IS THE DEFAULT. Switch it before you send the link.
   rsvp: {
-    mode: "demo",
+    mode: "appsscript",
 
-    // For mode "appsscript" — the /exec URL from your deployed Web App.
-    endpoint: "",
+    // For mode "appsscript": the /exec URL from your deployed Web App.
+    endpoint: "https://script.google.com/macros/s/AKfycbxCzVRakQVaVZH6UEhCT_777XbS3UHe_u5ECbtjhSTHRZdO6T6kZdi_VvkThkaRvhqZ/exec",
 
-    // For mode "formspree" — just the ID, e.g. "xbldnvqk"
+    // For mode "formspree": just the ID, e.g. "xbldnvqk"
     formspreeId: ""
   },
 
@@ -86,18 +86,18 @@ window.EVITE_CONFIG = {
   // It deliberately does NOT name Parsattom or say "surprise", so a stray
   // forward doesn't spoil anything. Change if you don't care.
   share: {
-    previewTitle: "You're Invited — Saturday, September 19",
+    previewTitle: "You're Invited: Saturday, September 19",
     previewDescription: "An evening in Cary. Please RSVP by September 1st.",
     // Message pre-filled when a guest taps "Share invite".
     shareText: "You're invited! Details + RSVP here:"
   },
 
   /* ---------------------------------------------------------------------
-   * 4. FAQ  — add, remove or reorder freely
+   * 4. FAQ  (add, remove or reorder freely)
    * ------------------------------------------------------------------ */
   faq: [
     {
-      q: "Wait — he really doesn't know?",
+      q: "Wait, he really doesn't know?",
       a: "He really doesn't. Please don't mention it to him, don't post about it, and don't tag the address anywhere until after the 19th."
     },
     {
@@ -110,7 +110,7 @@ window.EVITE_CONFIG = {
     },
     {
       q: "Can I bring a plus-one?",
-      a: "Yes — add them under \"who's coming with you\" so we know to expect them."
+      a: "Yes, add them under \"who's coming with you\" so we know to expect them."
     },
     {
       q: "Do I have to wear Indian clothes?",
