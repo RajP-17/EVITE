@@ -12,8 +12,8 @@ window.EVITE_CONFIG = {
    * ------------------------------------------------------------------ */
   event: {
     // Name as it appears on the invitation.
-    honoreePossessive: "Parsattom's",
-    honoreeName: "Parsattom",
+    honoreePossessive: "Parsottam Dada's",
+    honoreeName: "Parsottam Dada",
     // What the family calls him. Used in warm/casual sentences.
     honoreeNickname: "Dada",
     occasion: "75th Birthday",
@@ -83,7 +83,7 @@ window.EVITE_CONFIG = {
    * 3. LINK PREVIEWS  (surprise-safe by default)
    * ------------------------------------------------------------------ */
   // When someone drops the link in a group chat, this is the preview card.
-  // It deliberately does NOT name Parsattom or say "surprise", so a stray
+  // It deliberately does NOT name Parsottam Dada or say "surprise", so a stray
   // forward doesn't spoil anything. Change if you don't care.
   share: {
     previewTitle: "You're Invited: Saturday, September 19",

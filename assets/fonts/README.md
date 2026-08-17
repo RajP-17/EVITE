@@ -7,7 +7,7 @@ why these are small.
 
 | Family | Used for | Copyright |
 |---|---|---|
-| **Great Vibes** | the script display face, "Parsattom's 75th Birthday" | © 2015 The Great Vibes Pro Project Authors |
+| **Great Vibes** | the script display face, "Parsottam Dada's 75th Birthday" | © 2015 The Great Vibes Pro Project Authors |
 | **Jost** | all UI text, buttons, labels, spaced caps | © 2020 The Jost Project Authors |
 | **Cormorant Garamond** | section headings, numerals, quoted messages | © 2015 The Cormorant Project Authors |
 

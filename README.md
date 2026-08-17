@@ -1,4 +1,4 @@
-# Parsattom's 75th: invitation & RSVP site
+# Parsottam Dada's 75th: invitation & RSVP site
 
 A one-page invitation with a working RSVP form, plus a private dashboard for
 whoever is counting heads. Built as plain HTML/CSS/JS with no build step, no
@@ -23,7 +23,7 @@ from that one file. It's currently filled in from the printed invitation:
 
 | | |
 |---|---|
-| Who | Parsattom, "Dada" |
+| Who | Parsottam Dada |
 | What | 75th Birthday, surprise |
 | When | Saturday 19 September 2026, 6:00 PM |
 | Where | 1519 Scenic Club Drive, Cary, NC 27519 |
@@ -44,7 +44,7 @@ from that one file. It's currently filled in from the printed invitation:
 - **`faq`**: six questions written for a surprise party. Add or delete freely.
 
 Also worth knowing: the **link preview** (`share.previewTitle`) deliberately
-does *not* name Parsattom or say "surprise", so if the link gets forwarded to
+does *not* name Parsottam Dada or say "surprise", so if the link gets forwarded to
 the wrong group chat the preview card doesn't spoil it.
 
 ---
@@ -61,7 +61,7 @@ below before you send the link to anyone.**
 RSVPs land in a spreadsheet you own, you get an email on each one, and
 `rsvps.html` works. Free. About five minutes.
 
-1. Go to <https://sheets.new> and name it something like *Parsattom 75th RSVPs*.
+1. Go to <https://sheets.new> and name it something like *Parsottam Dada 75th RSVPs*.
 2. **Extensions ▸ Apps Script**. Delete the placeholder code.
 3. Paste in the whole of [`apps-script/Code.gs`](apps-script/Code.gs).
 4. Near the top, change `ADMIN_KEY` to a passphrase of your own.

@@ -1,6 +1,6 @@
 /**
  * =============================================================================
- * Parsattom's 75th: RSVP backend (Google Apps Script)
+ * Parsottam Dada's 75th: RSVP backend (Google Apps Script)
  * =============================================================================
  *
  * This turns a plain Google Sheet into the RSVP database for the invite site.
@@ -8,7 +8,7 @@
  * spreadsheet like any other.
  *
  * ------------------------------------ SETUP ---------------------------------
- *  1. Go to https://sheets.new  → name it "Parsattom 75th RSVPs".
+ *  1. Go to https://sheets.new  → name it "Parsottam Dada 75th RSVPs".
  *  2. Extensions → Apps Script. Delete whatever is in Code.gs.
  *  3. Paste this entire file in.
  *  4. Change ADMIN_KEY below to a passphrase of your own.
@@ -43,7 +43,7 @@ var HEADERS = [
   'Guest names',
   'Dietary',
   'Dietary notes',
-  'Message for Parsattom',
+  'Message for Parsottam Dada',
   'Notes for hosts',
   'Superseded'
 ];
@@ -193,7 +193,7 @@ function writeHeaders(sheet) {
   sheet.setFrozenRows(1);
   sheet.setColumnWidth(1, 160);   // Timestamp
   sheet.setColumnWidth(2, 190);   // Name
-  sheet.setColumnWidth(10, 320);  // Message for Parsattom
+  sheet.setColumnWidth(10, 320);  // Message for Parsottam Dada
 }
 
 /** Mark earlier rows for this person as superseded so counts stay honest. */
@@ -235,7 +235,7 @@ function notifyHost(name, attending, total, payload) {
       'With: ' + (payload.guestNames || '—') + '\n' +
       'Dietary: ' + (Array.isArray(payload.dietary) ? payload.dietary.join(', ') : (payload.dietary || '—')) + '\n' +
       'Dietary notes: ' + (payload.dietaryNotes || '—') + '\n\n' +
-      'Message for Parsattom:\n' + (payload.message || '—') + '\n\n' +
+      'Message for Parsottam Dada:\n' + (payload.message || '—') + '\n\n' +
       'Notes for hosts:\n' + (payload.notes || '—') + '\n';
 
     MailApp.sendEmail(to, subject, body);

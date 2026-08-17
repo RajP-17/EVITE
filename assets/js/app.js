@@ -306,7 +306,7 @@
     var lines = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//Parsattom 75th//EN',
+      'PRODID:-//Parsottam Dada 75th//EN',
       'CALSCALE:GREGORIAN',
       'METHOD:PUBLISH',
       'BEGIN:VEVENT',
