@@ -685,6 +685,55 @@ input[aria-invalid="true"] { border-color: #C2593F; }
 .faq__item[open] > summary::after { content: "–"; }
 .faq__a { padding: 0 .25em 1.5em; color: var(--ink-soft); font-size: .95rem; max-width: 40rem; }
 
+/* ========================================================== CONTACTS ==== */
+.contacts { background: var(--paper); }
+.contacts__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  max-width: 44rem;
+  margin: 0 auto;
+}
+.ccard {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.4rem, 3vw, 1.8rem);
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.ccard:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+.ccard__name {
+  font-size: .72rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin-bottom: .9em;
+}
+.ccard__link {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 1rem + .6vw, 1.4rem);
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold-pale);
+  padding-bottom: .15em;
+  width: fit-content;
+  margin: 0 auto;
+}
+.ccard__link:hover { color: var(--gold-deep); border-bottom-color: var(--gold); }
+.ccard__alt {
+  display: inline-block;
+  margin-top: .9em;
+  font-size: .78rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  text-decoration: none;
+}
+.ccard__alt:hover { color: var(--gold-deep); }
+
 /* ============================================================ FOOTER ==== */
 .footer {
   position: relative;

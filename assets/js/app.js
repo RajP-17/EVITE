@@ -54,6 +54,65 @@
 
   var deadlineLabel = monthLong(DEADLINE) + ' ' + ordinal(dayNum(DEADLINE));
 
+  /* --------------------------------------------------- contact helpers -- */
+  function contacts() {
+    return (EV.contacts || []).filter(function (c) {
+      return c && (c.phone || c.email);
+    });
+  }
+
+  /* What to tell someone whose RSVP failed to send. */
+  function contactFallback() {
+    if (EV.contactEmail) {
+      return 'email <a href="mailto:' + esc(EV.contactEmail) + '">' +
+             esc(EV.contactEmail) + '</a>';
+    }
+    var reachable = contacts().filter(function (c) { return c.phone; });
+    if (!reachable.length) return 'let one of the hosts know';
+
+    return 'text ' + reachable.map(function (c) {
+      return '<a href="sms:' + esc(c.phone.replace(/[^\d+]/g, '')) + '">' +
+             esc(c.name || c.phone) + '</a>';
+    }).join(' or ');
+  }
+
+  /* A tappable card per person: call, text or email straight from the page. */
+  function contactCard(c) {
+    var card = document.createElement('div');
+    card.className = 'ccard';
+
+    if (c.name) {
+      var name = document.createElement('p');
+      name.className = 'ccard__name';
+      name.textContent = c.name;
+      card.appendChild(name);
+    }
+
+    if (c.phone) {
+      var tel = document.createElement('a');
+      tel.className = 'ccard__link';
+      tel.href = 'tel:' + c.phone.replace(/[^\d+]/g, '');
+      tel.textContent = c.phone;
+      card.appendChild(tel);
+
+      var sms = document.createElement('a');
+      sms.className = 'ccard__alt';
+      sms.href = 'sms:' + c.phone.replace(/[^\d+]/g, '');
+      sms.textContent = 'Send a text';
+      card.appendChild(sms);
+    }
+
+    if (c.email) {
+      var mail = document.createElement('a');
+      mail.className = 'ccard__link';
+      mail.href = 'mailto:' + c.email;
+      mail.textContent = c.email;
+      card.appendChild(mail);
+    }
+
+    return card;
+  }
+
   /* ==================================================================== */
   /* 1. Render the invitation from config                                 */
   /* ==================================================================== */
@@ -122,21 +181,22 @@
     $('#linkGoogleMaps').href = 'https://www.google.com/maps/search/?api=1&query=' + q;
     $('#linkAppleMaps').href  = 'https://maps.apple.com/?q=' + q;
 
+    /* --- who to contact --- */
+    var people = contacts();
+    if (people.length) {
+      $('#contactsSection').hidden = false;
+      var grid = $('#contactsGrid');
+      people.forEach(function (c) {
+        grid.appendChild(contactCard(c));
+      });
+    }
+
     /* --- footer --- */
     setText('#footHost', EV.hostedBy ? 'From ' + EV.hostedBy : '');
 
-    var contact = $('#footContact');
-    var bits = [];
-    if (EV.contactEmail) {
-      bits.push('<a href="mailto:' + esc(EV.contactEmail) + '">' + esc(EV.contactEmail) + '</a>');
-    }
-    if (EV.contactPhone) {
-      bits.push('<a href="tel:' + esc(EV.contactPhone.replace(/[^\d+]/g, '')) + '">' +
-                esc(EV.contactPhone) + '</a>');
-    }
-    contact.innerHTML = bits.length
-      ? (EV.contactName ? esc(EV.contactName) + ' · ' : '') + bits.join(' · ')
-      : '';
+    $('#footContact').textContent = people.map(function (c) {
+      return [c.name, c.phone || c.email].filter(Boolean).join(' ');
+    }).join('  ·  ');
 
     /* --- FAQ --- */
     var list = $('#faqList');
@@ -263,9 +323,10 @@
       lines.push('It\'s a surprise, please keep it quiet.');
     }
     if (EV.dressCode) lines.push('Dress code: ' + EV.dressCode + '.');
-    if (EV.contactEmail || EV.contactPhone) {
-      lines.push('Questions: ' +
-        [EV.contactName, EV.contactEmail, EV.contactPhone].filter(Boolean).join(' · '));
+    if (contacts().length) {
+      lines.push('Questions: ' + contacts().map(function (c) {
+        return [c.name, c.phone || c.email].filter(Boolean).join(' ');
+      }).join(' · '));
     }
     lines.push(location.href.split('#')[0]);
     return lines.join('\n');
@@ -550,8 +611,7 @@
         submitBtn.disabled = false;
         status.dataset.tone = 'error';
         status.innerHTML = 'That didn\'t go through. ' + esc(err.message || 'Network trouble') +
-          '. Please try again, or email <a href="mailto:' + esc(EV.contactEmail || '') + '">' +
-          esc(EV.contactEmail || 'the hosts') + '</a>.';
+          '. Please try again, or ' + contactFallback() + '.';
       });
     });
 

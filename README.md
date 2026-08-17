@@ -36,9 +36,8 @@ from that one file. It's currently filled in from the printed invitation:
   I inferred this because it's a surprise; the invitation only says 6 PM.
   Set `guestArrival: ""` to drop the callout entirely.
 - **`hostedBy: "Alpesh Patel and family"`** is what the footer signs off with.
-  **`contactName: "Raj"`** is a placeholder.
-- **`contactEmail`** is set to your email. Add `contactPhone` if you want people
-  to be able to text you on the day.
+- **`contacts`** is the list of people guests can reach, one card each. Add or
+  remove entries freely; each needs a name and a phone or an email.
 - **`parkingNote` / `foodNote` / `giftsNote`**: I wrote sensible versions. Edit
   or set to `""` to hide the card.
 - **`faq`**: six questions written for a surprise party. Add or delete freely.
@@ -172,7 +171,7 @@ is always the real source of truth.
 - [ ] `rsvp.mode` is no longer `"demo"` and a test RSVP arrived
 - [ ] `ADMIN_KEY` in `Code.gs` changed from the default
 - [ ] Arrival time in `config.js` is what you actually want guests to do
-- [ ] Host name, contact email and phone are right
+- [ ] Names and phone numbers in `contacts` are right
 - [ ] Opened it on your phone, that's how nearly everyone will see it
 - [ ] Sent it to one person first as a sanity check
 

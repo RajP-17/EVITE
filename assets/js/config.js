@@ -43,10 +43,16 @@ window.EVITE_CONFIG = {
 
     hostedBy: "Alpesh Patel and family",
 
-    // Who guests contact with questions.
-    contactName: "Raj",
-    contactEmail: "rajpatel211075@gmail.com",
-    contactPhone: "",   // e.g. "+1 919 555 0134". Leave "" to hide
+    // Who guests contact with questions. Each entry becomes a contact card,
+    // so add or remove people freely. Leave the list empty to hide the section.
+    contacts: [
+      { name: "Raj",  phone: "919-523-4107" },
+      { name: "Ravi", phone: "984-232-9943" }
+    ],
+
+    // Optional. Shown if an RSVP fails to send. Leave "" to point people at
+    // the phone numbers above instead.
+    contactEmail: "",
 
     // Optional extra notes. Leave "" to hide the card entirely.
     parkingNote: "Park in any open spot.",
