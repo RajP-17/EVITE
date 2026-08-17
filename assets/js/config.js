@@ -49,7 +49,7 @@ window.EVITE_CONFIG = {
     contactPhone: "",   // e.g. "+1 919 555 0134". Leave "" to hide
 
     // Optional extra notes. Leave "" to hide the card entirely.
-    parkingNote: "Park in the clubhouse lot. Please head inside rather than waiting in your car so the surprise isn't given away.",
+    parkingNote: "Park in any open spot. Please head inside rather than waiting in your car so the surprise isn't given away.",
     foodNote: "Dinner will be served. Full vegetarian options available.",
     giftsNote: "Your presence is the gift."
   },
