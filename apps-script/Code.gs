@@ -42,11 +42,26 @@ var HEADERS = [
   'Phone',
   'Message for Parsottam Dada',
   'Notes for hosts',
+  'Reminder sent',
   'Superseded'
 ];
 
-/** 1-based column of "Superseded". Kept in step with HEADERS above. */
-var SUPERSEDED_COL = HEADERS.length;
+/** 1-based columns, derived so they stay in step with HEADERS above. */
+var REMINDER_COL   = HEADERS.indexOf('Reminder sent') + 1;
+var SUPERSEDED_COL = HEADERS.indexOf('Superseded') + 1;
+
+/** Details the reminder email quotes back. Keep in step with config.js. */
+var EVENT = {
+  honoree:    'Parsottam Dada',
+  occasion:   '75th Birthday',
+  dateLine:   'Saturday, September 19',
+  arrival:    '5:30 PM',
+  walksInAt:  '6:00 PM',
+  venue:      'The Clubhouse',
+  address:    '1519 Scenic Club Drive, Cary, NC 27519',
+  dressCode:  'Indian Bandhini & Kurta Pyjama',
+  contacts:   'Raj 919-523-4107 or Ravi 984-232-9943'
+};
 
 
 /* ============================ WRITE (guest RSVP) ========================== */
@@ -96,7 +111,8 @@ function doPost(e) {
       String(payload.phone || '').trim(),
       String(payload.message || '').trim(),
       String(payload.notes || '').trim(),
-      ''
+      '',                                  // Reminder sent
+      ''                                   // Superseded
     ]);
 
     notifyHost(name, attending, guests, payload);
@@ -232,6 +248,107 @@ function notifyHost(name, attending, total, payload) {
     // Never let a mail failure lose an RSVP.
   }
 }
+
+/* ========================== REMINDERS (to guests) ========================= */
+/*
+ *  previewReminders()  tells you who would get one, sends nothing.
+ *  sendReminders()     emails every confirmed guest who left an address, once.
+ *
+ *  Each row is stamped in "Reminder sent" as it goes out, so running this
+ *  twice will not mail anybody twice. To deliberately re-send, clear that
+ *  cell for the rows you want.
+ *
+ *  To schedule it: Apps Script ▸ Triggers ▸ Add trigger ▸ sendReminders
+ *  ▸ Time-driven ▸ Specific date and time. Pick a few days before the party.
+ *  A personal Gmail account can mail about 100 recipients a day.
+ * ------------------------------------------------------------------------ */
+
+function previewReminders() {
+  var targets = reminderTargets();
+  var lines = targets.map(function (t) { return t.name + '  <' + t.email + '>'; });
+
+  var msg = targets.length
+    ? targets.length + ' reminder(s) would go to:\n\n' + lines.join('\n')
+    : 'Nobody to remind yet. Guests need to be attending, have an email, ' +
+      'and not have been reminded already.';
+
+  Logger.log(msg);
+  try {
+    SpreadsheetApp.getActiveSpreadsheet().toast(
+      targets.length + ' to remind. See View ▸ Logs for the list.', 'Reminders', 8);
+  } catch (err) { /* running headless from a trigger */ }
+  return msg;
+}
+
+function sendReminders() {
+  var sheet = getSheet();
+  var targets = reminderTargets();
+  if (!targets.length) return 'Nobody to remind.';
+
+  var quota = MailApp.getRemainingDailyQuota();
+  if (quota < targets.length) {
+    throw new Error('Only ' + quota + ' emails left today but ' + targets.length +
+                    ' to send. Run this again tomorrow for the rest.');
+  }
+
+  var subject = EVENT.honoree + '\'s ' + EVENT.occasion + ' is on ' + EVENT.dateLine;
+  var sent = 0;
+
+  targets.forEach(function (t) {
+    MailApp.sendEmail(t.email, subject, reminderBody(t.name));
+    sheet.getRange(t.row, REMINDER_COL).setValue(new Date());
+    sent++;
+  });
+
+  var msg = 'Sent ' + sent + ' reminder(s).';
+  Logger.log(msg);
+  try {
+    SpreadsheetApp.getActiveSpreadsheet().toast(msg, 'Reminders', 8);
+  } catch (err) { /* running headless from a trigger */ }
+  return msg;
+}
+
+/** Confirmed guests with an email who have not been reminded yet. */
+function reminderTargets() {
+  var sheet = getSheet();
+  var last = sheet.getLastRow();
+  if (last < 2) return [];
+
+  var values = sheet.getRange(2, 1, last - 1, HEADERS.length).getValues();
+  var out = [];
+
+  for (var i = 0; i < values.length; i++) {
+    var r = values[i];
+    if (String(r[SUPERSEDED_COL - 1]).trim() !== '') continue;   // replaced
+    if (String(r[2]).trim() !== 'Yes') continue;                 // not coming
+    if (String(r[REMINDER_COL - 1]).trim() !== '') continue;     // already sent
+
+    var email = String(r[4]).trim();
+    if (!email) continue;                                        // no address
+
+    out.push({ row: i + 2, name: String(r[1]).trim(), email: email });
+  }
+
+  return out;
+}
+
+function reminderBody(name) {
+  var first = name.split(' ')[0] || name;
+
+  return 'Hi ' + first + ',\n\n' +
+    'A quick reminder about ' + EVENT.honoree + '\'s ' + EVENT.occasion + '.\n\n' +
+    'When:   ' + EVENT.dateLine + '. Please arrive by ' + EVENT.arrival + '.\n' +
+    '        ' + EVENT.honoree + ' walks in at ' + EVENT.walksInAt + ', so everyone\n' +
+    '        needs to be inside before then.\n' +
+    'Where:  ' + EVENT.venue + ', ' + EVENT.address + '.\n' +
+    '        Park in any open spot.\n' +
+    'Wear:   ' + EVENT.dressCode + '. Any festive outfit is welcome.\n\n' +
+    'It is still a surprise, so please don\'t mention it to him, don\'t post\n' +
+    'about it, and don\'t tag the address anywhere until after the party.\n\n' +
+    'If anything changes, text ' + EVENT.contacts + '.\n\n' +
+    'See you there.\n';
+}
+
 
 function toInt(v, fallback) {
   var n = parseInt(v, 10);

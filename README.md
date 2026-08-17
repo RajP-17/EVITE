@@ -146,7 +146,32 @@ is always the real source of truth.
 
 ---
 
-## 5. Details worth knowing
+## 5. Reminder emails
+
+`Code.gs` can email confirmed guests before the party. It reaches everyone who
+said yes **and** typed an email address, which is an optional field, so expect
+it to cover some of your list rather than all of it. Phone numbers are there
+for you to text from your own phone; the script cannot send SMS.
+
+In the Apps Script editor, pick the function from the dropdown and Run:
+
+- **`previewReminders`** lists who would get one. Sends nothing. Check it first.
+- **`sendReminders`** sends them, and stamps each row's *Reminder sent* column
+  so nobody is mailed twice. To deliberately re-send, clear that cell.
+
+To schedule instead of running it by hand: **Triggers ▸ Add trigger ▸
+`sendReminders` ▸ Time-driven ▸ Specific date and time**, set a few days before.
+
+A personal Gmail account can mail about 100 recipients a day. If the list is
+longer, `sendReminders` refuses rather than sending half, and you run it again
+the next day.
+
+Details quoted in the email (time, address, dress code, phone numbers) live in
+the `EVENT` block at the top of `Code.gs`. Keep it in step with `config.js`.
+
+---
+
+## 6. Details worth knowing
 
 - **Repeat RSVPs replace earlier ones.** Someone submitting twice under the same
   name doesn't get double-counted. The older row is flagged `replaced` in the
@@ -166,7 +191,7 @@ is always the real source of truth.
 
 ---
 
-## 6. Before you send the link
+## 7. Before you send the link
 
 - [ ] `rsvp.mode` is no longer `"demo"` and a test RSVP arrived
 - [ ] `ADMIN_KEY` in `Code.gs` changed from the default

@@ -622,8 +622,9 @@
 
       var msg;
       if (yes) {
-        msg = 'You\'re on the list' + (total > 1 ? ' for ' + total + ' people' : '') + '. ' +
-              'We\'ll send a reminder closer to the day.';
+        // Only promise the reminder to people we can actually email.
+        msg = 'You\'re on the list' + (total > 1 ? ' for ' + total + ' people' : '') + '.' +
+              (data.email ? ' We\'ll email a reminder closer to the day.' : '');
       } else {
         msg = 'We\'ll miss you, and ' + EV.honoreeNickname +
               ' will hear that you were thinking of him.';
