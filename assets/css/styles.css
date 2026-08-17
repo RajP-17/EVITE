@@ -193,7 +193,9 @@ p:last-child { margin-bottom: 0; }
   text-transform: uppercase;
   font-weight: 400;
   color: var(--ink);
-  margin-bottom: .35em;
+  /* The script face below has tall ascenders that eat into this gap, so it
+     needs more room than it looks like it should. */
+  margin-bottom: 1.25em;
 }
 
 .honoree { display: grid; gap: 0; margin: 0 0 .35em; }
