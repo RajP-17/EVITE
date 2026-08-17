@@ -36,7 +36,7 @@ window.EVITE_CONFIG = {
     addressLine2: "Cary, NC 27519",
 
     dressCode: "Indian Bandhini & Kurta Pyjama",
-    dressCodeNote: "Any bandhini and kurta pyjama works, no particular colours. Anything festive is welcome, comfort over perfection.",
+    dressCodeNote: "Any bandhini and kurta pyjama works, no particular colours. Any festive outfit is welcome, comfort over perfection.",
 
     // Last day to RSVP.
     rsvpDeadline: "2026-09-01T23:59:59-04:00",
