@@ -150,6 +150,75 @@
     renderMessages();
   }
 
+  /* ------------------------------------------------------------- copy -- */
+  /* Paste the result straight into Google Voice, Messages or the Bcc line.
+     Confirmed guests only: there is no point reminding someone who declined. */
+
+  function contactList(field) {
+    var seen = {};
+    var out = [];
+
+    rows.forEach(function (r) {
+      if (r.attending !== 'Yes') return;
+      var v = String(r[field] || '').trim();
+      if (!v) return;
+      var dedupeKey = field === 'phone' ? v.replace(/\D/g, '') : v.toLowerCase();
+      if (!dedupeKey || seen[dedupeKey]) return;
+      seen[dedupeKey] = true;
+      out.push(v);
+    });
+
+    return out;
+  }
+
+  function say(msg) {
+    var hint = $('#copyHint');
+    hint.textContent = msg;
+    hint.hidden = false;
+    clearTimeout(say.t);
+    say.t = setTimeout(function () { hint.hidden = true; }, 4000);
+  }
+
+  function toClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    // Older browsers, or a page not served over https.
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      ok ? resolve() : reject(new Error('copy blocked'));
+    });
+  }
+
+  function copyContacts(field, noun) {
+    var list = contactList(field);
+
+    if (!list.length) {
+      say('No ' + noun + 's to copy yet.');
+      return;
+    }
+
+    var one = list.length === 1;
+    var text = list.join(', ');
+
+    toClipboard(text).then(function () {
+      say('Copied ' + list.length + ' ' + noun + (one ? '' : 's') + '. ' +
+          'Paste ' + (one ? 'it' : 'them') + ' into a new message.');
+    }).catch(function () {
+      // Copying can be blocked; show them the list so it is never a dead end.
+      say('Couldn\'t reach the clipboard. Here ' + (one ? 'it is' : 'they are') + ': ' + text);
+    });
+  }
+
   /* -------------------------------------------------------------- csv -- */
   function csv() {
     var cols = ['Name', 'Attending', 'People', 'Email', 'Phone',
@@ -209,6 +278,8 @@
   });
 
   $('#search').addEventListener('input', function () { renderTable(this.value); });
+  $('#btnCopyPhones').addEventListener('click', function () { copyContacts('phone', 'number'); });
+  $('#btnCopyEmails').addEventListener('click', function () { copyContacts('email', 'email'); });
   $('#btnCsv').addEventListener('click', csv);
   $('#btnPrint').addEventListener('click', function () { window.print(); });
 

@@ -48,11 +48,14 @@
         <input type="text" id="search" placeholder="Search a name, email, note…">
       </div>
       <div style="display:flex;gap:1.25rem;flex-wrap:wrap;align-items:center">
+        <button class="linkbtn" type="button" id="btnCopyPhones">Copy numbers</button>
+        <button class="linkbtn" type="button" id="btnCopyEmails">Copy emails</button>
         <button class="linkbtn" type="button" id="btnRefresh">Refresh</button>
         <button class="linkbtn" type="button" id="btnCsv">Download CSV</button>
         <button class="linkbtn" type="button" id="btnPrint">Print</button>
         <button class="linkbtn" type="button" id="btnLogout">Lock</button>
       </div>
+      <p class="hint" id="copyHint" hidden aria-live="polite"></p>
     </div>
 
     <div class="tablewrap">
