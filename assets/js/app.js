@@ -483,7 +483,9 @@
     }
 
     $('#name').addEventListener('input', function () { clearErr('name'); });
+    // One shared message under the pair, so either field clears it.
     $('#email').addEventListener('input', function () { clearErr('email'); });
+    $('#phone').addEventListener('input', function () { clearErr('email'); });
 
     function collect() {
       var picked = f.querySelector('input[name="attending"]:checked');
@@ -511,9 +513,17 @@
         showErr('attending', 'Let us know either way. A "no" is still helpful.');
         firstBad = firstBad || f.querySelector('input[name="attending"]');
       }
-      if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) {
-        showErr('email', 'That email looks off. Check it, or leave it blank.');
+      // We need one way to reach every guest: a reminder goes out by email,
+      // and anything on the day is a phone call.
+      if (!data.email && !data.phone) {
+        showErr('email', 'Please leave an email or a mobile number so we can reach you.');
         firstBad = firstBad || $('#email');
+      } else if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) {
+        showErr('email', 'That email looks off. Check it, or leave a mobile number instead.');
+        firstBad = firstBad || $('#email');
+      } else if (!data.email && data.phone.replace(/\D/g, '').length < 7) {
+        showErr('email', 'That number looks too short. Check it, or leave an email instead.');
+        firstBad = firstBad || $('#phone');
       }
       if (data.attending === 'yes' && data.guests < 1) {
         showErr('guests', 'If you\'re coming, that needs to be at least 1.');

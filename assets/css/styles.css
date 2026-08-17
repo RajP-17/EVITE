@@ -519,6 +519,10 @@ p:last-child { margin-bottom: 0; }
 /* Headcount: a short box, not a full-width one. */
 .field--count input { max-width: 8rem; }
 
+/* Email + mobile: the pair is required, so the note sits under the legend. */
+.field--contact { border: 0; padding: 0; margin: 0 0 1.5rem; }
+.hint--lead { margin: -.45em 0 1.1em; }
+
 input[type="text"], input[type="email"], input[type="tel"],
 input[type="number"], textarea {
   width: 100%;
