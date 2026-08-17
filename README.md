@@ -27,7 +27,7 @@ from that one file. It's currently filled in from the printed invitation:
 | What | 75th Birthday, surprise |
 | When | Saturday 19 September 2026, 6:00 PM |
 | Where | 1519 Scenic Club Drive, Cary, NC 27519 |
-| Dress | Indian Bandini & Kurta Pajama |
+| Dress | Indian Bandhini |
 | RSVP by | 1 September 2026 |
 
 **A few things I filled in that you should check or change:**

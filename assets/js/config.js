@@ -35,8 +35,8 @@ window.EVITE_CONFIG = {
     addressLine1: "1519 Scenic Club Drive",
     addressLine2: "Cary, NC 27519",
 
-    dressCode: "Indian Bandini & Kurta Pajama",
-    dressCodeNote: "Bandhani prints and kurta pajama in golds, creams and warm colours. Anything festive is welcome. Comfort over perfection.",
+    dressCode: "Indian Bandhini",
+    dressCodeNote: "Bandhini prints in golds, creams and warm colours. Anything festive is welcome. Comfort over perfection.",
 
     // Last day to RSVP.
     rsvpDeadline: "2026-09-01T23:59:59-04:00",
