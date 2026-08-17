@@ -115,8 +115,10 @@
     }
 
     /* --- maps --- */
+    // Street address only. A venue name like "The Clubhouse" is not something
+    // either map service can resolve, and it throws off the search.
     var q = encodeURIComponent(
-      [EV.venueName, EV.addressLine1, EV.addressLine2].filter(Boolean).join(', '));
+      [EV.addressLine1, EV.addressLine2].filter(Boolean).join(', '));
     $('#linkGoogleMaps').href = 'https://www.google.com/maps/search/?api=1&query=' + q;
     $('#linkAppleMaps').href  = 'https://maps.apple.com/?q=' + q;
 

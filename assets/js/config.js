@@ -31,7 +31,7 @@ window.EVITE_CONFIG = {
     surpriseMoment: "6:00 PM",
 
     // Where. Leave venueName as "" for a private residence.
-    venueName: "",
+    venueName: "The Clubhouse",
     addressLine1: "1519 Scenic Club Drive",
     addressLine2: "Cary, NC 27519",
 
@@ -49,7 +49,7 @@ window.EVITE_CONFIG = {
     contactPhone: "",   // e.g. "+1 919 555 0134". Leave "" to hide
 
     // Optional extra notes. Leave "" to hide the card entirely.
-    parkingNote: "Street parking is available along Scenic Club Drive. Please park a little further down the street so the driveway doesn't give the surprise away.",
+    parkingNote: "Park in the clubhouse lot. Please head inside rather than waiting in your car so the surprise isn't given away.",
     foodNote: "Dinner will be served. Full vegetarian options available.",
     giftsNote: "Your presence is the gift."
   },
