@@ -40,7 +40,6 @@ var HEADERS = [
   'People',
   'Email',
   'Phone',
-  'Guest names',
   'Message for Parsottam Dada',
   'Notes for hosts',
   'Superseded'
@@ -95,7 +94,6 @@ function doPost(e) {
       guests,
       String(payload.email || '').trim(),
       String(payload.phone || '').trim(),
-      String(payload.guestNames || '').trim(),
       String(payload.message || '').trim(),
       String(payload.notes || '').trim(),
       ''
@@ -138,9 +136,8 @@ function doGet(e) {
       total:        Number(r[3]) || 0,
       email:        String(r[4]),
       phone:        String(r[5]),
-      guestNames:   String(r[6]),
-      message:      String(r[7]),
-      notes:        String(r[8])
+      message:      String(r[6]),
+      notes:        String(r[7])
     });
   }
 
@@ -187,7 +184,7 @@ function writeHeaders(sheet) {
   sheet.setFrozenRows(1);
   sheet.setColumnWidth(1, 160);   // Timestamp
   sheet.setColumnWidth(2, 190);   // Name
-  sheet.setColumnWidth(8, 320);   // Message for Parsottam Dada
+  sheet.setColumnWidth(7, 320);   // Message for Parsottam Dada
 }
 
 /** Mark earlier rows for this person as superseded so counts stay honest. */
@@ -226,7 +223,6 @@ function notifyHost(name, attending, total, payload) {
       'People from their household: ' + total + '\n' +
       'Email: ' + (payload.email || '—') + '\n' +
       'Phone: ' + (payload.phone || '—') + '\n' +
-      'With: ' + (payload.guestNames || '—') + '\n' +
 
       'Message for Parsottam Dada:\n' + (payload.message || '—') + '\n\n' +
       'Notes for hosts:\n' + (payload.notes || '—') + '\n';

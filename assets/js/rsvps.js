@@ -57,7 +57,6 @@
           total: r.guests || 0,
           email: r.email || '',
           phone: r.phone || '',
-          guestNames: r.guestNames || '',
           message: r.message || '',
           notes: r.notes || ''
         };
@@ -104,7 +103,7 @@
   function renderTable(filter) {
     var q = (filter || '').trim().toLowerCase();
     var shown = !q ? rows : rows.filter(function (r) {
-      return [r.name, r.email, r.phone, r.guestNames, r.notes, r.message]
+      return [r.name, r.email, r.phone, r.notes, r.message]
         .join(' ').toLowerCase().indexOf(q) > -1;
     });
 
@@ -125,7 +124,6 @@
         '<td><span class="pill pill--' + (r.attending === 'Yes' ? 'yes' : 'no') + '">' +
           esc(r.attending) + '</span></td>' +
         '<td><strong>' + (r.attending === 'Yes' ? r.total : '—') + '</strong></td>' +
-        '<td class="cell-msg">' + esc(r.guestNames) + '</td>' +
         '<td class="cell-msg">' + contact + '</td>' +
         '<td class="cell-msg">' + esc(r.notes) + '</td>' +
         '<td>' + esc(when) + '</td>' +
@@ -155,7 +153,7 @@
   /* -------------------------------------------------------------- csv -- */
   function csv() {
     var cols = ['Name', 'Attending', 'People', 'Email', 'Phone',
-                'Bringing', 'Notes', 'Message', 'RSVP date'];
+                'Notes', 'Message', 'RSVP date'];
 
     function cell(v) {
       var s = String(v == null ? '' : v);
@@ -165,7 +163,7 @@
     var lines = [cols.join(',')];
     rows.forEach(function (r) {
       lines.push([r.name, r.attending, r.total, r.email, r.phone,
-                  r.guestNames, r.notes, r.message,
+                  r.notes, r.message,
                   r.timestamp].map(cell).join(','));
     });
 

@@ -494,7 +494,6 @@
         name:         $('#name').value.trim(),
         attending:    attending,
         guests:       yes ? Math.max(0, parseInt($('#guests').value, 10) || 0) : 0,
-        guestNames:   yes ? $('#guestNames').value.trim() : '',
         message:      $('#message').value.trim(),
         email:        $('#email').value.trim(),
         phone:        $('#phone').value.trim(),
@@ -682,7 +681,6 @@
         if (radio) radio.checked = true;
         if (prev.attending === 'yes') {
           $('#guests').value = prev.guests != null ? prev.guests : 1;
-          $('#guestNames').value = prev.guestNames || '';
         }
         returning = true;
         $('#rsvpBlurb').textContent =
