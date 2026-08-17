@@ -323,8 +323,10 @@ function reminderTargets() {
     if (String(r[2]).trim() !== 'Yes') continue;                 // not coming
     if (String(r[REMINDER_COL - 1]).trim() !== '') continue;     // already sent
 
+    // Anything that is not a real address is skipped rather than handed to
+    // MailApp, which throws and abandons the rest of the run.
     var email = String(r[4]).trim();
-    if (!email) continue;                                        // no address
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) continue;
 
     out.push({ row: i + 2, name: String(r[1]).trim(), email: email });
   }
